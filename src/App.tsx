@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from "react-router";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { AdminLayout } from "./layouts/AdminLayout";
+import { PublicLayout } from "./layouts/PublicLayout";
 import { CartPage } from "./pages/CartPage";
 import { LoginPage } from "./pages/LoginPage";
 import { ProductsPage } from "./pages/ProductsPage";
@@ -11,8 +12,12 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/products" replace />} />
-      <Route path="/products" element={<ProductsPage />} />
-      <Route path="/cart" element={<CartPage />} />
+
+      <Route element={<PublicLayout />}>
+        <Route path="/products" element={<ProductsPage />} />
+        <Route path="/cart" element={<CartPage />} />
+      </Route>
+
       <Route path="/login" element={<LoginPage />} />
 
       <Route element={<ProtectedRoute />}>

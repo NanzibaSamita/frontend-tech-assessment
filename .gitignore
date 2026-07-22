@@ -1,3 +1,18 @@
+# Environment
+.env
+.env.*
+!.env.example
+
+# Local helper files
+all_project_code.txt
+combine_all.py
+
+# Dependencies and builds
+node_modules
+dist
+dist-ssr
+*.local
+
 # Logs
 logs
 *.log
@@ -7,12 +22,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
+# Editor and OS files
 .vscode/*
 !.vscode/extensions.json
 .idea
