@@ -29,6 +29,15 @@ export function PublicLayout() {
             <Link to="/login">Admin</Link>
           </nav>
 
+          <NavLink
+  className={({ isActive }) =>
+    isActive ? "nav-link active" : "nav-link"
+  }
+  to="/tasks"
+>
+  Tasks
+</NavLink>
+
           <span
             className={`customer-badge ${
               isReturningCustomer ? "returning" : "new"
