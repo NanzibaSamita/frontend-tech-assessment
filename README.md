@@ -1,77 +1,187 @@
-# React + TypeScript + Vite
+# Frontend Tech Associate – Take-Home Assessment
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A responsive e-commerce and task-management application built with React, TypeScript, Vite, React Router, Axios, and Context API.
 
-Currently, two official plugins are available:
+The application includes a public product catalog, persistent shopping cart, checkout flow, returning-customer identification, administrator authentication, product management, order management, and task CRUD operations.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Features
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+### Public Product Catalog
 
-Note: This will impact Vite dev & build performances.
+- Retrieves products from the provided REST API
+- API-driven pagination
+- Displays a maximum of 20 products per page
+- Displays product image, name, price, and stock quantity
+- Loading, error, empty, and image-fallback states
+- Add-to-cart functionality
+- Prevents adding quantities above available stock
 
-## Expanding the ESLint configuration
+### Shopping Cart
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Add products to the cart
+- Increase or decrease product quantities
+- Remove products
+- Display total item count
+- Display cart subtotal
+- Cart contents persist after browser refresh
+- Prevents ordering more than the available product stock
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Checkout and Orders
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- Collects customer name, email, phone number, and address
+- Places orders through the provided API
+- Preserves the cart when the checkout API fails
+- Clears the cart only after a successful order
+- Displays success and failure feedback
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+The order API intentionally fails approximately 50% of the time with a `500` response. This is handled by preserving the cart and allowing the customer to retry.
 
-```
+### Returning Customer Identification
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+A returning customer is identified automatically after successfully placing an order.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- No customer login or additional identification is requested
+- New visitors are shown as `New Customer`
+- After a successful order, they are shown as `Returning Customer`
+- Customer status persists across browser refreshes and future visits
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Authentication
 
-```
+- Administrator login
+- Authentication state management
+- Access-token and refresh-token handling
+- Automatic token refresh
+- Protected administrator routes
+- Logout functionality
+- Redirects unauthenticated users to the login page
+
+### Admin Product Management
+
+Authenticated administrators can:
+
+- View paginated products
+- Create products
+- Update products
+- Delete products
+- View product stock information
+- Confirm deletion through a confirmation dialog
+
+### Admin Order Management
+
+Authenticated administrators can:
+
+- View all customer orders
+- View individual order details
+- View customer information
+- View purchased product IDs
+- View purchased quantities
+- View returning-customer status
+- View order creation dates
+
+### Task Management
+
+- View all tasks
+- Create tasks
+- Update tasks
+- Delete tasks
+- Manage task title, description, status, and due date
+- Loading, empty, success, and error states
+
+### Responsive Design
+
+The application is designed for:
+
+- Desktop
+- Laptop
+- Tablet
+- Mobile devices
+
+Admin tables support horizontal scrolling on smaller screens.
+
+---
+
+## Technology Stack
+
+- React
+- TypeScript
+- Vite
+- React Router
+- Axios
+- Context API
+- CSS
+- REST API
+- Local Storage
+- ESLint
+- Git
+
+---
+
+## Project Structure
+
+```text
+src/
+├── api/
+│   ├── authService.ts
+│   ├── httpClients.ts
+│   ├── orderService.ts
+│   ├── productService.ts
+│   ├── setupInterceptors.ts
+│   └── taskService.ts
+│
+├── auth/
+│   ├── AuthContext.tsx
+│   ├── AuthProvider.tsx
+│   └── useAuth.ts
+│
+├── cart/
+│   ├── CartContext.ts
+│   ├── CartProvider.tsx
+│   └── useCart.ts
+│
+├── components/
+│   ├── ConfirmDialog.tsx
+│   ├── ErrorState.tsx
+│   ├── LoadingState.tsx
+│   ├── OrderDetailsDialog.tsx
+│   ├── Pagination.tsx
+│   ├── ProductCard.tsx
+│   ├── ProductForm.tsx
+│   └── ProductImage.tsx
+│
+├── customer/
+│   ├── CustomerContext.ts
+│   ├── CustomerProvider.tsx
+│   └── useCustomer.ts
+│
+├── layouts/
+│   ├── AdminLayout.tsx
+│   └── PublicLayout.tsx
+│
+├── pages/
+│   ├── CartPage.tsx
+│   ├── LoginPage.tsx
+│   ├── ProductsPage.tsx
+│   ├── TasksPage.tsx
+│   └── admin/
+│       ├── AdminOrdersPage.tsx
+│       └── AdminProductsPage.tsx
+│
+├── types/
+│   ├── auth.ts
+│   ├── cart.ts
+│   ├── order.ts
+│   ├── product.ts
+│   └── task.ts
+│
+├── utils/
+│   ├── apiError.ts
+│   ├── cartStorage.ts
+│   ├── currency.ts
+│   ├── customerStorage.ts
+│   └── tokenStorage.ts
+│
+├── App.tsx
+├── main.tsx
+└── styles.css 
